@@ -1,6 +1,6 @@
 
 macro(configure_boost)
-    set(Boost_USE_STATIC_LIBS ON)
+    set(Boost_USE_STATIC_LIBS OFF)
     set(Boost_USE_MULTITHREADED ON)
     set(Boost_USE_STATIC_RUNTIME OFF)
     set(BOOST_MIN_VERSION "1.78.0")

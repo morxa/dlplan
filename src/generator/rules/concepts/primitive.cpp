@@ -8,8 +8,8 @@ void PrimitiveConcept::generate_impl(const core::States& states, int target_comp
     assert(target_complexity == 1);
     core::SyntacticElementFactory& factory = data.m_factory;
     for (const auto& predicate : factory.get_vocabulary_info()->get_predicates()) {
-        if (predicate.get_arity() == 1) {
-            auto element = factory.make_primitive_concept(predicate, 0);
+        for (int pos = 0; pos < predicate.get_arity(); ++pos) {
+            auto element = factory.make_primitive_concept(predicate, pos);
             auto denotations = element->evaluate(states, caches);
             if (data.m_concept_hash_table.insert(denotations).second) {
                 std::get<2>(data.m_generated_features).push_back(element);

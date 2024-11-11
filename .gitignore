@@ -70,3 +70,5 @@ run.log
 *.dot
 
 dependencies/
+
+.cache

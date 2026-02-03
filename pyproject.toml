@@ -6,6 +6,28 @@ requires = [
 ]
 build-backend = "setuptools.build_meta"
 
+[project]
+name = "dlplan"
+version = "0.3.29"
+authors = [
+    {name = "Dominik Drexler", email = "dominik.drexler@liu.se"},
+    {name = "Jendrik Seipp"},
+    {name = "Guillem Francès"}
+]
+description = "A library for using description logics features in planning"
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = [
+    "cmake>=3.21",
+]
+
+[project.optional-dependencies]
+state_space = [
+    "state_space_generator==0.1.9",
+]
+test = [
+    "pytest",
+]
 
 [tool.cibuildwheel]
 build = "cp39-* cp310-* cp311-* cp312-* cp313-*"

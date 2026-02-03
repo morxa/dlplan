@@ -87,14 +87,7 @@ class CMakeBuild(build_ext):
 # The information here can also be placed in setup.cfg - better separation of
 # logic and declaration, and simpler if you include description/version in a file.
 setup(
-    name="dlplan",
-    version=__version__,
-    author="Dominik Drexler, Jendrik Seipp and Guillem Francès",
-    author_email="dominik.drexler@liu.se",
-    url="https://github.com/rleap-project/dlplan",
-    description="A library for using description logics features in planning",
-    long_description="",
-    install_requires=["cmake>=3.21"],
+    
     packages=find_packages(where="api/python/src"),
     package_dir={"": "api/python/src"},
     package_data={
@@ -103,12 +96,4 @@ setup(
     ext_modules=[CMakeExtension("_dlplan")],
     cmdclass={"build_ext": CMakeBuild},
     zip_safe=False,
-    extras_require={
-        "state_space": [
-            "state_space_generator==0.1.9",
-        ],
-        "test": [
-            "pytest",
-        ],
-    },
 )

@@ -60,10 +60,11 @@ cmake --build dependencies/build -j16
 
 ### 3.2. Building the C++ Interface
 
-Create python virtual environment and install dependencies
+Create python virtual environment and install optional dependencies if needed:
 ```console
 python3 -m venv --prompt dlplan .venv
 source .venv/bin/activate
+# Optional: only needed if you want to use state_space functionality
 pip install state_space_generator
 ```
 
@@ -95,6 +96,12 @@ Use the following command, if you are only interested in using the Python interf
 
 ```console
 pip install dlplan
+```
+
+To also install the optional state_space functionality:
+
+```console
+pip install dlplan[state_space]
 ```
 
 ## 4. Running the Examples

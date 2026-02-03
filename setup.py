@@ -1,12 +1,10 @@
-
-import os
-import sys
-import subprocess
 import multiprocessing
-
+import os
+import subprocess
+import sys
 from pathlib import Path
 
-from setuptools import setup, find_packages, Extension
+from setuptools import Extension, find_packages, setup
 from setuptools.command.build_ext import build_ext
 
 __version__ = "0.3.29"
@@ -38,7 +36,16 @@ class CMakeBuild(build_ext):
 
         # Build dependencies
         subprocess.run(
-            ["cmake", "-S", f"{ext.sourcedir}/dependencies", "-B", f"{str(temp_directory)}/dependencies/build", f"-DCMAKE_INSTALL_PREFIX={str(temp_directory)}/dependencies/installs"], cwd=str(temp_directory), check=True
+            [
+                "cmake",
+                "-S",
+                f"{ext.sourcedir}/dependencies",
+                "-B",
+                f"{str(temp_directory)}/dependencies/build",
+                f"-DCMAKE_INSTALL_PREFIX={str(temp_directory)}/dependencies/installs",
+            ],
+            cwd=str(temp_directory),
+            check=True,
         )
 
         subprocess.run(
@@ -53,16 +60,27 @@ class CMakeBuild(build_ext):
             "-DBUILD_TESTS:bool=false",
             f"-DPYTHON_EXECUTABLE={sys.executable}",
             f"-DCMAKE_BUILD_TYPE={cfg}",  # not used on MSVC, but no harm
-            f"-DCMAKE_PREFIX_PATH={str(temp_directory)}/dependencies/installs"
+            f"-DCMAKE_PREFIX_PATH={str(temp_directory)}/dependencies/installs",
         ]
         build_args = []
         build_args += ["--target", ext.name]
 
         subprocess.run(
-            ["cmake", "-S", ext.sourcedir, "-B", f"{str(temp_directory)}/build"] + cmake_args, cwd=str(temp_directory), check=True
+            ["cmake", "-S", ext.sourcedir, "-B", f"{str(temp_directory)}/build"]
+            + cmake_args,
+            cwd=str(temp_directory),
+            check=True,
         )
         subprocess.run(
-            ["cmake", "--build", f"{str(temp_directory)}/build", f"-j{multiprocessing.cpu_count()}"] + build_args, cwd=str(temp_directory), check=True
+            [
+                "cmake",
+                "--build",
+                f"{str(temp_directory)}/build",
+                f"-j{multiprocessing.cpu_count()}",
+            ]
+            + build_args,
+            cwd=str(temp_directory),
+            check=True,
         )
 
 
@@ -76,7 +94,7 @@ setup(
     url="https://github.com/rleap-project/dlplan",
     description="A library for using description logics features in planning",
     long_description="",
-    install_requires=["state_space_generator==0.1.9", "cmake>=3.21"],
+    install_requires=["cmake>=3.21"],
     packages=find_packages(where="api/python/src"),
     package_dir={"": "api/python/src"},
     package_data={
@@ -86,8 +104,11 @@ setup(
     cmdclass={"build_ext": CMakeBuild},
     zip_safe=False,
     extras_require={
-        'test': [
-            'pytest',
+        "state_space": [
+            "state_space_generator==0.1.9",
         ],
-    }
+        "test": [
+            "pytest",
+        ],
+    },
 )
